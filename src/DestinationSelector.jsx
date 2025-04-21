@@ -1,10 +1,12 @@
 import React from 'react';
 
 export default function DestinationSelector({ tours, selected, onSelect }) {
-  const names = ['All Destinations', ...new Set(tours.map(t => t.name))];
+  //get unique names & add "all destinations"
+    const names = ['All Destinations', ...new Set(tours.map(t => t.name))];
 
   return (
     <div className="mb-4">
+      {/*Dropdown menu for selecting destination */}
       <select
         className="p-2 border rounded"
         value={selected}
