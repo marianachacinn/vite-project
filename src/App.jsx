@@ -11,18 +11,26 @@ export default function App() {
   const [error, setError] = useState(null);
   const [selected, setSelected] = useState('All Destinations');
 // fetch tour data from API
-  const fetchTours = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      setTours(data);
-      setError(null);
-    } catch (err) {
-      setError('Failed to fetch tours.');
+const fetchTours = async () => {
+  setLoading(true);
+  try {
+    const res = await fetch(API_URL);
+
+    // Throw a custom error if status is not OK (e.g., 404 or 500)
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
     }
-    setLoading(false);
-  };
+
+    const data = await res.json();
+    setTours(data);
+    setError(null);
+  } catch (err) {
+    console.error('Fetch error:', err); // 👈 Log full error in dev console
+    setError(`Failed to fetch tours: ${err.message}`);
+  }
+  setLoading(false);
+};
+
 // fetch tours on initial render
   useEffect(() => {
     fetchTours();
